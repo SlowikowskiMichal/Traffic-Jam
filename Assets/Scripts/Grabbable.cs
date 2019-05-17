@@ -17,6 +17,7 @@ public class Grabbable : MonoBehaviour
         sp = GetComponent<SpriteRenderer>();
         ps = GetComponent<ParticleSystem>();
         ps.Stop();
+        rb.centerOfMass.Set(0f,-200f);
     }
 
     // Update is called once per frame
@@ -26,6 +27,16 @@ public class Grabbable : MonoBehaviour
         {
             rb.velocity = rb.velocity.normalized*maxSpeed;
         }
+    }
+
+    public void Grabbed()
+    {
+        rb.angularDrag = 100f;
+    }
+
+    public void LetGo()
+    {
+        rb.angularDrag = 0.1f;      
     }
 
     void OnCollisionEnter2D(Collision2D other)

@@ -19,5 +19,11 @@ public class GameManager : MonoBehaviour
             Debug.Log("Reload");
             SceneManager.LoadScene("MainScene");
         }
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Debug.Log("Exit");
+            Application.Quit();
+        }
     }
 }

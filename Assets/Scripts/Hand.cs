@@ -12,13 +12,15 @@ public class Hand : MonoBehaviour
     Collider2D fistCollider;
     Rigidbody2D holdingObject;
     Rigidbody2D handBody;
-    Joint2D joint;
+    HingeJoint2D joint;
+    Grabbable grabedObject;
     void Start()
     {
         fistCollider = GetComponent<CircleCollider2D>();
         handBody = GetComponent<Rigidbody2D>();
-        joint = GetComponent<Joint2D>();
+        joint = GetComponent<HingeJoint2D>();
         fistCollider.enabled = false;
+    
     }
 
     void FixedUpdate()
@@ -38,6 +40,12 @@ public class Hand : MonoBehaviour
                {
                     holdingObject = handCollider.GetComponent<Rigidbody2D>();
                     joint.connectedBody = holdingObject;
+
+                    grabedObject = holdingObject.GetComponent<Grabbable>();
+                    if(grabedObject != null)
+                    {
+                        grabedObject.Grabbed();
+                    }
                }
                else
                {
@@ -52,6 +60,11 @@ public class Hand : MonoBehaviour
                fistCollider.enabled = false;
                //holdingObject.velocity = Vector3.Normalize(holdingObject.velocity)*maxThrowForce*Time.deltaTime;
                holdingObject = null;
+               if(grabedObject != null)
+               {
+                   grabedObject.LetGo();
+               }
+               grabedObject = null;
                joint.connectedBody = holdingObject;
            }
 
